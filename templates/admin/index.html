@@ -38,10 +38,11 @@
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Users</p>
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Purchase Summary</p>
                     <h5 class="font-weight-bolder mb-0">
-                      2,300
-                      <span class="text-success text-sm font-weight-bolder">+3%</span>
+                      {{ app_view1.total_commande }}
+                    
+                      <span class="text-success text-sm font-weight-bolder">DA</span>
                     </h5>
                   </div>
                 </div>
@@ -62,8 +63,9 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">New Clients</p>
                     <h5 class="font-weight-bolder mb-0">
-                      +3,462
-                      <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                      {{app_view1.new_clients_count}}
+                      
+                      <span class="text-danger text-sm font-weight-bolder">{{app_view1.new_clients_percentage}}%</span>
                     </h5>
                   </div>
                 </div>
@@ -172,19 +174,178 @@
         </div>
       </div>
 
-      <div class="row my-4">
+<!-- Your existing HTML code -->
+<div class="row my-4">
+  <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+    <div class="card">
+      
+      <div class="card-header pb-0">
+        
+        <!-- Add the nav-tabs structure here -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" id="tab1" data-toggle="tab" href="#products1"style="font-size: 1rem;
+            line-height: 1.625;font-weight: 600;">Stock</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="tab2" data-toggle="tab" href="#products2"style="font-size: 1rem;
+            line-height: 1.625;font-weight: 600;">Best customers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="tab3" data-toggle="tab" href="#products3"style="font-size: 1rem;
+            line-height: 1.625;font-weight: 600;">Best-seller</a>
+          </li>
+          {% comment %} <li class="nav-item">
+            <a class="nav-link" id="tab4" data-toggle="tab" href="#products4"style="font-size: 1rem;
+            line-height: 1.625;font-weight: 600;">Tab 4</a>
+          </li> {% endcomment %}
+        </ul>
+        
+      </div>
+      <div class="card-body px-0 pb-2">
+        <!-- Add the tab-content structure here -->
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="products1">
+            <!-- Table content for Tab 1 -->
+            <div class="table-responsive">
+              <table class="table align-items-center mb-0"style="padding-right:20px">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Designation</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Product Type</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantity in stock</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Completion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for product in app_view1.products %}
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div>
+                          {% comment %} <img src={{product.designation}} class="avatar avatar-sm me-3" alt="xd"> {% endcomment %}
+
+                          <img src="/{{  product.image }}" class="avatar avatar-sm me-3" alt="xd">
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{product.designation }}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{product.get_type_display }}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <span class="text-xs font-weight-bold"> {{ product.quantity_in_stock }} </span>
+                    </td>
+                    <td class="align-middle">
+                      <div class="progress-wrapper w-75 mx-auto">
+                        
+                        {% if product.get_pourcentage == 100 %}
+                        <div class="progress">
+                          <div class="progress-bar bg-gradient-success w-{{ product.get_pourcentage }}" role="progressbar" aria-valuenow="{{ product.quantity_in_stock }}" aria-valuemin="0" aria-valuemax="10000"></div>
+                      </div>
+                        {% endif %}
+                        {% if product.get_pourcentage < 100 and  product.get_pourcentage >= 50  %}
+                        <div class="progress">
+                          <div class="progress-bar bg-gradient-info w-{{ product.get_pourcentage }}" role="progressbar" aria-valuenow="{{ product.quantity_in_stock }}" aria-valuemin="0" aria-valuemax="10000"></div>
+                      </div>
+                        {% endif %}
+                        {% if product.get_pourcentage < 50 %}
+                        <div class="progress">
+                          <div class="progress-bar bg-gradient-danger w-{{ product.get_pourcentage }}" role="progressbar" aria-valuenow="{{ product.quantity_in_stock }}" aria-valuemin="0" aria-valuemax="10000"></div>
+                      </div>
+                        {% endif %}
+                      
+
+                       
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="products2">
+            <!-- Table content for Tab 2 -->
+            <!-- ... Your existing table structure ... -->
+          </div>
+          <div class="tab-pane fade" id="products3">
+            <!-- Table content for Tab 3 -->
+            <!-- ... Your existing table structure ... -->
+          </div>
+          <div class="tab-pane fade" id="products4">
+            <!-- Table content for Tab 4 -->
+            <!-- ... Your existing table structure ... -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6">
+          <div class="card h-100">
+            <div class="card-header pb-0">
+              <h6>{% trans 'Recent actions' %}</h6>
+              <p class="text-sm">
+                <i class="fa fa-arrow-down text-success" aria-hidden="true"></i>
+                <span class="font-weight-bold">{% trans 'My actions' %}</span>
+              </p>
+            </div>
+            <div class="card-body p-3">
+              <div class="timeline timeline-one-side">
+                  {% load log %}
+                  {% get_admin_log 10 as admin_log for_user user %}
+                  {% if admin_log %}
+                      {% for entry in admin_log %}
+                          <div class="timeline-block mb-3">
+                            <span class="timeline-step">
+                                {% if entry.is_addition %}
+                                      <span class="fa fa-plus-circle text-success text-gradient"></span>
+                                  {% endif %}
+                                  {% if entry.is_change %}
+                                      <span class="fa fa-edit text-warning text-gradient"></span>
+                                  {% endif %}
+                                  {% if entry.is_deletion %}
+                                      <span class="fa fa-trash text-danger text-gradient"></span>
+                                  {% endif %}
+                            </span>
+                            <div class="timeline-content">
+                              <h6 class="text-dark text-sm font-weight-bold mb-0">
+                                {% if entry.content_type %}
+                                      {% filter capfirst %}{{ entry.content_type }}{% endfilter %}
+                                  {% else %}
+                                      {% trans 'Unknown content' %}
+                                  {% endif %}
+                              </h6>
+                              <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">{{ entry.object_repr }}</p>
+                            </div>
+                          </div>
+                      {% endfor %}
+                  {% else %}
+                      <p>{% trans 'None available' %}</p>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+
+      {% comment %} <div class="row my-4">
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
           <div class="card">
             <div class="card-header pb-0">
               <div class="row">
                 <div class="col-lg-6 col-7">
                   <h6>Products</h6>
-                  {% comment %} <p class="text-sm mb-0">
-                    <i class="fa fa-check text-info" aria-hidden="true"></i>
-                    <span class="font-weight-bold ms-1">30 done</span> this month
-                  </p> {% endcomment %}
                 </div>
-                {% comment %} <div class="col-lg-6 col-5 my-auto text-end">
+                <div class="col-lg-6 col-5 my-auto text-end">
                   <div class="dropdown float-lg-end pe-4">
                     <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
                       <i class="fa fa-ellipsis-v text-secondary"></i>
@@ -195,7 +356,7 @@
                       <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
                     </ul>
                   </div>
-                </div> {% endcomment %}
+                </div> 
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -215,9 +376,9 @@
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div>
-                            {% comment %} <img src={{product.designation}} class="avatar avatar-sm me-3" alt="xd"> {% endcomment %}
+                            <img src={{product.designation}} class="avatar avatar-sm me-3" alt="xd">
 
-                            <img src="{% static 'img/'|add:product.designation|add:'.png' %}" class="avatar avatar-sm me-3" alt="xd">
+                            <img src="/{{  product.image }}" class="avatar avatar-sm me-3" alt="xd">
                           </div>
                           <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm">{{product.designation }}</h6>
@@ -260,237 +421,7 @@
                       </td>
                     </tr>
                     {% endfor %}
-                    {% comment %} <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{% static 'img/small-logos/logo-xd.svg' %}" class="avatar avatar-sm me-3" alt="xd">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Soft UI XD Version</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="avatar-group mt-2">
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
-                            <img src="{% static 'img/team-1.jpg' %}" alt="team1">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                            <img src="{% static 'img/team-2.jpg' %}" alt="team2">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">
-                            <img src="{% static 'img/team-3.jpg' %}" alt="team3">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                            <img src="{% static 'img/team-4.jpg' %}" alt="team4">
-                          </a>
-                        </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold"> $14,000 </span>
-                      </td>
-                      <td class="align-middle">
-                        <div class="progress-wrapper w-75 mx-auto">
-                          <div class="progress-info">
-                            <div class="progress-percentage">
-                              <span class="text-xs font-weight-bold">60%</span>
-                            </div>
-                          </div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-info w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{% static 'img/small-logos/logo-atlassian.svg' %}" class="avatar avatar-sm me-3" alt="atlassian">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Add Progress Track</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="avatar-group mt-2">
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                            <img src="{% static 'img/team-2.jpg' %}" alt="team5">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                            <img src="{% static 'img/team-4.jpg' %}" alt="team6">
-                          </a>
-                        </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold"> $3,000 </span>
-                      </td>
-                      <td class="align-middle">
-                        <div class="progress-wrapper w-75 mx-auto">
-                          <div class="progress-info">
-                            <div class="progress-percentage">
-                              <span class="text-xs font-weight-bold">10%</span>
-                            </div>
-                          </div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-info w-10" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{% static 'img/small-logos/logo-slack.svg' %}" class="avatar avatar-sm me-3" alt="team7">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Fix Platform Errors</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="avatar-group mt-2">
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                            <img src="{% static 'img/team-3.jpg' %}" alt="team8">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                            <img src="{% static 'img/team-1.jpg' %}" alt="team9">
-                          </a>
-                        </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold"> Not set </span>
-                      </td>
-                      <td class="align-middle">
-                        <div class="progress-wrapper w-75 mx-auto">
-                          <div class="progress-info">
-                            <div class="progress-percentage">
-                              <span class="text-xs font-weight-bold">100%</span>
-                            </div>
-                          </div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-success w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{% static 'img/small-logos/logo-spotify.svg' %}" class="avatar avatar-sm me-3" alt="spotify">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Launch our Mobile App</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="avatar-group mt-2">
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
-                            <img src="{% static 'img/team-4.jpg' %}" alt="user1">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                            <img src="{% static 'img/team-3.jpg' %}" alt="user2">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">
-                            <img src="{% static 'img/team-4.jpg' %}" alt="user3">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                            <img src="{% static 'img/team-1.jpg' %}" alt="user4">
-                          </a>
-                        </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold"> $20,500 </span>
-                      </td>
-                      <td class="align-middle">
-                        <div class="progress-wrapper w-75 mx-auto">
-                          <div class="progress-info">
-                            <div class="progress-percentage">
-                              <span class="text-xs font-weight-bold">100%</span>
-                            </div>
-                          </div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-success w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{% static 'img/small-logos/logo-jira.svg' %}" class="avatar avatar-sm me-3" alt="jira">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Add the New Pricing Page</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="avatar-group mt-2">
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
-                            <img src="{% static 'img/team-4.jpg' %}" alt="user5">
-                          </a>
-                        </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold"> $500 </span>
-                      </td>
-                      <td class="align-middle">
-                        <div class="progress-wrapper w-75 mx-auto">
-                          <div class="progress-info">
-                            <div class="progress-percentage">
-                              <span class="text-xs font-weight-bold">25%</span>
-                            </div>
-                          </div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-info w-25" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="25"></div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{% static 'img/small-logos/logo-invision.svg' %}" class="avatar avatar-sm me-3" alt="invision">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Redesign New Online Shop</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="avatar-group mt-2">
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
-                            <img src="{% static 'img/team-1.jpg' %}" alt="user6">
-                          </a>
-                          <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Jessica Doe">
-                            <img src="{% static 'img/team-4.jpg' %}" alt="user7">
-                          </a>
-                        </div>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold"> $2,000 </span>
-                      </td>
-                      <td class="align-middle">
-                        <div class="progress-wrapper w-75 mx-auto">
-                          <div class="progress-info">
-                            <div class="progress-percentage">
-                              <span class="text-xs font-weight-bold">40%</span>
-                            </div>
-                          </div>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-info w-40" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="40"></div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr> {% endcomment %}
+                    
                   </tbody>
                 </table>
               </div>
@@ -543,7 +474,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> {% endcomment %}
 
       {% include "includes/footer.html" %}
 
@@ -553,9 +484,33 @@
 
 <!-- Specific JS goes HERE --> 
 {% block scripts %}
+<script>
+  // Add this script to the end of your body section
+  $(document).ready(function(){
+    // Show the corresponding tab content when a tab is clicked
+    $('#tab1').click(function(){
+      $('.tab-pane').removeClass('show active');
+      $('#products1').addClass('show active');
+    });
+    $('#tab2').click(function(){
+      $('.tab-pane').removeClass('show active');
+      $('#products2').addClass('show active');
+    });
+    $('#tab3').click(function(){
+      $('.tab-pane').removeClass('show active');
+      $('#products3').addClass('show active');
+    });
+    $('#tab4').click(function(){
+      $('.tab-pane').removeClass('show active');
+      $('#products4').addClass('show active');
+    });
+  });
+</script>
+
 
   <script src="{% static 'js/plugins/chartjs.min.js' %}"></script>
   <script>
+    
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
     new Chart(ctx, {
@@ -640,9 +595,9 @@
     new Chart(ctx2, {
       type: "line",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ["","Jan","Feb","Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [{
-            label: "Mobile apps",
+            label: "Sales",
             tension: 0.4,
             borderWidth: 0,
             pointRadius: 0,
@@ -650,12 +605,12 @@
             borderWidth: 3,
             backgroundColor: gradientStroke1,
             fill: true,
-            data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+            data: [0,{{app_view1.jan_value}}, {{app_view1.feb_value}}, {{app_view1.mar_value}},{{app_view1.apr_value}}, {{app_view1.may_value}}, {{app_view1.jun_value}}, {{app_view1.jul_value}}, {{app_view1.aug_value}}, {{app_view1.sep_value}}, {{app_view1.oct_value}}, {{app_view1.nov_value}}, {{app_view1.dec_value}}],
             maxBarThickness: 6
 
           },
           {
-            label: "Websites",
+            label: "Profit",
             tension: 0.4,
             borderWidth: 0,
             pointRadius: 0,
@@ -663,7 +618,7 @@
             borderWidth: 3,
             backgroundColor: gradientStroke2,
             fill: true,
-            data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+            data: [0,50, 40, 300,30, 90, 40, 140, 290, 290, 340, 230, 400],
             maxBarThickness: 6
           },
         ],

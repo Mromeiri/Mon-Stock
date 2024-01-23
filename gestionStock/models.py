@@ -7,6 +7,7 @@ from django.db.models import Sum
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.db.models.signals import post_delete
+from django.utils.timezone import now
 
 TYPE_CHOICES = (
         ('1', 'Matieres Premiére'),
@@ -27,7 +28,7 @@ class Product(models.Model):
     Type = models.CharField(max_length=1, choices=TYPE_CHOICES, null=True, blank=True)
     quantity_in_stock= models.PositiveIntegerField( default=0)
     Avrege_quantity= models.PositiveIntegerField( default=0)
-    image = models.ImageField(upload_to='gestionStockenv/Lib/admin_soft/static/img/', null=True, blank=True)
+    image = models.ImageField(upload_to='static/img/', null=True, blank=True)
     def __str__(self):
         return f"{self.designation} " 
     def create_stock_for_centers(self):
@@ -61,9 +62,10 @@ class Client(models.Model):
     address = models.CharField(max_length=200)
     phone = models.CharField(max_length=20)
     credit = models.DecimalField(max_digits=10, decimal_places=2)
+    date_of_registration = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"{self.id} {self.name} " 
+        return f"{self.name} " 
     # Autres champs pour les détails du client
 
 class Supplier(models.Model):
@@ -87,6 +89,7 @@ class Commande(models.Model):
         return f"{self.id} " 
 
 class ArriveInStock(models.Model):
+     
     commande = models.ForeignKey(Commande,  on_delete=models.CASCADE)
     date_arrive = models.DateTimeField(default=timezone.now)
     quantity_arrive = models.PositiveIntegerField()
@@ -157,15 +160,15 @@ class Employee(models.Model):
     center = models.ForeignKey(Center, on_delete=models.CASCADE)
     # Autres champs pour les détails de l'employé
 
-class Purchase(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    purchase_date = models.DateField()
-    quantity = models.PositiveIntegerField()
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_status = models.BooleanField(default=False)
-    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+# class Purchase(models.Model):
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+#     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+#     purchase_date = models.DateField()
+#     quantity = models.PositiveIntegerField()
+#     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+#     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+#     payment_status = models.BooleanField(default=False)
+#     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     # Autres champs pour les détails de l'achat
 
 class Transfer(models.Model):
@@ -190,6 +193,7 @@ class Transfer(models.Model):
                     location=self.center,
                     quantity_in_stock=self.quantity
                 )
+            super(Transfer, self).save(*args, **kwargs)
     def delete(self, *args, **kwargs):
             stock = Stock.objects.filter(
                 product=self.Arrival.commande.produit,
@@ -214,10 +218,11 @@ class Transfer(models.Model):
 class Sale(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    sale_date = models.DateField()
+    sale_date = models.DateTimeField(default=now)
     quantity_sold = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+
     def clean(self):
         total_amount = self.unit_price * self.quantity_sold
         if self.amount_paid > total_amount or self.product.quantity_in_stock <= self.quantity_sold:
