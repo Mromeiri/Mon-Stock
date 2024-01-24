@@ -201,7 +201,7 @@ class CommandeAdmin(admin.ModelAdmin):
 @admin.register(ArriveInStock)
 class ArriveInStockAdmin(admin.ModelAdmin):
     actions = ['imprimer_pdf']
-    list_display = ('get_commande_number','get_commande_numbercommande','date_arrive', 'get_commande_quantity_arrive','get_quantity_transferred', 'get_produit_name','get_supplier_name')
+    list_display = ('get_commande_number','get_commande_numbercommande','date_arrive', 'get_commande_quantity_arrive','get_quantity_transferred' ,'get_produit_name','get_supplier_name')
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "commande":
             kwargs["queryset"] = Commande.objects.exclude(state__in=['3', '4'])
@@ -218,6 +218,7 @@ class ArriveInStockAdmin(admin.ModelAdmin):
     def get_commande_number(self, obj):
         return obj.id
     get_commande_number.short_description = 'N° Arrival'
+  
     def get_commande_quantity_arrive(self, obj):
         return obj.quantity_arrive
     get_commande_quantity_arrive.short_description = 'Qte arrived'
@@ -253,12 +254,12 @@ class CenterAdmin(admin.ModelAdmin):
     search_fields = ('id', 'designation')
     
 
-@admin.register(Employee)
-class EmployeeAdmin(admin.ModelAdmin):
-    actions = ['imprimer_pdf']
-    list_display = ('id', 'name', 'address', 'phone', 'daily_salary', 'center')
-    search_fields = ('id', 'name', 'phone')
-    list_filter = ('center',)
+# @admin.register(Employee)
+# class EmployeeAdmin(admin.ModelAdmin):
+#     actions = ['imprimer_pdf']
+#     list_display = ('id', 'name', 'address', 'phone', 'daily_salary', 'center')
+#     search_fields = ('id', 'name', 'phone')
+#     list_filter = ('center',)
 
 # @admin.register(Purchase)
 # class PurchaseAdmin(admin.ModelAdmin):
@@ -285,7 +286,7 @@ class MaterialTransferAdmin(admin.ModelAdmin):
 @admin.register(Sale)
 class SaleAdmin(admin.ModelAdmin):
     actions = ['imprimer_pdf']
-    list_display = ('product', 'client', 'sale_date', 'quantity_sold', 'unit_price', 'total_amount', 'amount_paid')
+    list_display = ('product', 'client','center', 'sale_date', 'quantity_sold', 'unit_price', 'total_amount', 'amount_paid')
     def total_amount(self,obj):
         return obj.quantity_sold * obj.unit_price
     search_fields = ('product__code', 'client__code', 'sale_date')
@@ -295,6 +296,13 @@ class SaleAdmin(admin.ModelAdmin):
 class StockAdmin(admin.ModelAdmin):
     actions = ['imprimer_pdf']
     list_display = ('product', 'location', 'quantity_in_stock')
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+    def has_change_permission(self, request, obj=None):
+        return False
 
     # def get_queryset(self, request):
     #     # Override the queryset to filter based on the user's center
@@ -311,6 +319,7 @@ class NotificationAdmin(admin.ModelAdmin):
     list_filter = ('is_read', 'created_at')
     search_fields = ('title', 'message')
     readonly_fields = ('created_at',)
+    
 # class PaymentCommandeForm(forms.ModelForm):
 #     class Meta:
 #         model = PaymentCommande
@@ -332,6 +341,8 @@ class PaymentCommandeAdmin(admin.ModelAdmin):
     list_display = ['commande', 'date', 'montant', 'obsrvation']
     search_fields = ['commande__id']  # Search by commande ID
     list_filter = ['date']
+    def has_change_permission(self, request, obj=None):
+        return False
     
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "commande":

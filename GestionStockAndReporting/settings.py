@@ -39,6 +39,7 @@ ALLOWED_HOSTS = ['192.168.57.190','127.0.0.1','192.168.185.190']
 
 INSTALLED_APPS = [
     'gestionStock',
+    'GestionEmployee',
     'admin_soft.apps.AdminSoftDashboardConfig',
     'django.contrib.admin',
     'django.contrib.auth',

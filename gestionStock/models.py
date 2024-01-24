@@ -13,6 +13,10 @@ TYPE_CHOICES = (
         ('1', 'Matieres Premiére'),
         ('2', 'Final'),
     )
+Notification_label = (
+        ('Out of stock', 'Out of stock'),
+        
+    )
 COMMANDE_STATE_CHOICES = (
     ('1', 'En attente'),
     
@@ -85,6 +89,7 @@ class Commande(models.Model):
     state = models.CharField(max_length=1, choices=COMMANDE_STATE_CHOICES, default='1' )
     date_created = models.DateTimeField(default=timezone.now)
     payed = models.BooleanField(default=False)
+    
     def __str__(self):
         return f"{self.id} " 
 
@@ -128,7 +133,7 @@ class ArriveInStock(models.Model):
             self.commande.state = '2'
             self.commande.save()
     def __str__(self):
-        return f"{self.id} " 
+        return f"Lot{self.id}  {self.commande.produit} " 
 
 class Center(models.Model):
     designation = models.CharField(max_length=100)
@@ -152,12 +157,12 @@ def create_stock_for_center(sender, instance, created, **kwargs):
     if created:
         instance.create_stock_for_products()
 
-class Employee(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
-    phone = models.CharField(max_length=20)
-    daily_salary = models.DecimalField(max_digits=10, decimal_places=2)
-    center = models.ForeignKey(Center, on_delete=models.CASCADE)
+# class Employee(models.Model):
+#     name = models.CharField(max_length=100)
+#     address = models.CharField(max_length=200)
+#     phone = models.CharField(max_length=20)
+#     daily_salary = models.DecimalField(max_digits=10, decimal_places=2)
+#     center = models.ForeignKey(Center, on_delete=models.CASCADE)
     # Autres champs pour les détails de l'employé
 
 # class Purchase(models.Model):
@@ -218,6 +223,7 @@ class Transfer(models.Model):
 class Sale(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    center = models.ForeignKey(Center, on_delete=models.SET_NULL, null=True, blank=True)
     sale_date = models.DateTimeField(default=now)
     quantity_sold = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -225,8 +231,14 @@ class Sale(models.Model):
 
     def clean(self):
         total_amount = self.unit_price * self.quantity_sold
-        if self.amount_paid > total_amount or self.product.quantity_in_stock <= self.quantity_sold:
+        if self.amount_paid > total_amount :
             raise ValidationError("Amount paid cannot exceed the total amount.")
+        if self.product.quantity_in_stock <= self.quantity_sold:
+            Notification.objects.create(
+                title="Out of stock",
+                message=f"The product {self.product} is insufficient."
+            )
+            raise ValidationError("Qte not enough.")
     def save(self, *args, **kwargs):
         print(self.pk)
         
@@ -281,7 +293,7 @@ class Stock(models.Model):
 
 class Notification(models.Model):
 
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100,choices=Notification_label)
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
@@ -294,6 +306,7 @@ class PaymentCommande(models.Model):
     date = models.DateTimeField(default=timezone.now)
     montant = models.PositiveIntegerField()
     obsrvation = models.CharField( max_length=50,blank=True,null=True)
+    
     def clean(self):
         commande = self.commande
         if self.montant > commande.unit_price * commande.quantity:
@@ -327,18 +340,36 @@ class PaymentSupplier(models.Model):
     date = models.DateTimeField(default=timezone.now)
     montant = models.PositiveIntegerField()
     obsrvation = models.CharField( max_length=50,blank=True,null=True)
+    def save(self, *args, **kwargs):
+        print(self.pk)
+        
+        if self.pk != None:
+            print("heelllllll")
+            original_instance = PaymentSupplier.objects.get(pk=self.pk)
+            
+            montant_difference = self.montant - original_instance.montant
+
+        # Update the supplier's balance with the montant difference
+            self.Supplier.balance -= montant_difference
+            self.Supplier.save()
+        
+
+        super(PaymentSupplier, self).save(*args, **kwargs)
+
+        
 @receiver(post_save, sender=PaymentSupplier)
 def update_supplier_balance_on_save(sender, instance, created, **kwargs):
     if created:  # Check if a new PaymentSupplier instance is created
-        supplier = instance.Supplier
-        supplier.balance += instance.montant
-        supplier.save()
+        Supplier = instance.Supplier
+        Supplier.balance -= instance.montant
+        Supplier.save()
+    
 
 @receiver(post_delete, sender=PaymentSupplier)
 def update_supplier_balance_on_delete(sender, instance, **kwargs):
-    supplier = instance.Supplier
-    supplier.balance -= instance.montant
-    supplier.save()
+    Supplier = instance.Supplier
+    Supplier.balance += instance.montant
+    Supplier.save()
 
 class PaymentCredit(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)

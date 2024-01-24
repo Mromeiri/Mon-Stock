@@ -9,7 +9,10 @@ from django.db.models.functions import ExtractMonth, ExtractYear
 from django.db.models import Sum, Count, F, ExpressionWrapper, DecimalField
 from django.db.models.functions import TruncMonth
 from gestionStock.models import *
-
+from django.db.models import F, ExpressionWrapper, fields
+from django.db.models import Subquery  
+from decimal import Decimal
+from datetime import date, timedelta
     
 dicc=55
 dicmodel={}
@@ -23,7 +26,8 @@ dicmodel["Utilisateurs"] = "5"
 
 
 def indexx(request):
-    
+    months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
     total_amount = Sale.objects.all()
     full = 0
     for total in total_amount:
@@ -63,54 +67,29 @@ def indexx(request):
     new_clients_percentage = (new_clients_count / total_clients_count) * 100 if total_clients_count != 0 else 0
 
     # Sales Graph
-
-
-# Get the current year
-
-
-   
-
+    yearly_totals_2023 = get_total_amount_by_year(timezone.now().year)
+    yearly_totals_center1 = get_total_amount_by_year(timezone.now().year, center=1)
+    yearly_totals_center2 = get_total_amount_by_year(timezone.now().year, center=2)
+    yearly_totals_center3 = get_total_amount_by_year(timezone.now().year, center=3)
+    # Top Client
+    top_clients = Sale.objects.values(
+    'client__id', 'client__name', 'client__address', 'client__phone',
+    ).annotate(
+        total_amount=Sum(ExpressionWrapper(F('quantity_sold') * F('unit_price'), output_field=fields.DecimalField()))
+    ).order_by('-total_amount')[:5]
+    top_product = Sale.objects.values(
+    'product__designation', 'product__Type', 'product__quantity_in_stock', 'product__image'
+    ).annotate(
+        total=Sum(ExpressionWrapper(F('quantity_sold')* F('unit_price') , output_field=fields.DecimalField())),
+        quantity_sold=Sum(ExpressionWrapper(F('quantity_sold') , output_field=fields.DecimalField()))
+    ).order_by('-quantity_sold')[:5]
     
-
-    
-
-    
-       
-
-    # total_assisted_rows = Assisted.objects.count()
-    # total_students = Etudiant.objects.count()
-    # total_amount_students = Etudiant.objects.aggregate(total_amount=models.Sum('amount'))['total_amount'] or 0
-    # p = (calculate_final_amount_for_all())
-    # percentage_final_amounts_all_students = (
-    #     p / float(total_amount)
-    # ) * 100 if total_amount != 0 else 0
-
-    
-    
-
-  
-
-    yearly_totals_2023 = get_total_amount_by_year(2024)
-    print(yearly_totals_2023)
-    result_string = str(yearly_totals_2023['dec']).replace("(", "").replace(")", "")
-
-    jan_value = yearly_totals_2023['jan']
-    feb_value = yearly_totals_2023['feb']
-    mar_value = yearly_totals_2023['mar']
-    apr_value = yearly_totals_2023['apr']
-    may_value = yearly_totals_2023['may']
-    jun_value = yearly_totals_2023['jun']
-    jul_value = yearly_totals_2023['jul']
-    aug_value = yearly_totals_2023['aug']
-    sep_value = yearly_totals_2023['sep']
-    oct_value = yearly_totals_2023['oct']
-    nov_value = yearly_totals_2023['nov']
-    dec_value = yearly_totals_2023['dec']
-    print(jan_value)
-
+    # # Print or use the top clients
+    # print(top_client_instances)
     
     # Create a dictionary with 'total_amount' as a key-value pair
     context = {
+                'months':months,
                 'total_sales': full,
                'products':products,
                'notification':notification,
@@ -118,55 +97,19 @@ def indexx(request):
                'total_commande':yearly_total,
                'new_clients_count':new_clients_count,
                'new_clients_percentage':new_clients_percentage,
-
-               'jan_value': jan_value, 
-               'feb_value' : yearly_totals_2023['feb'],
-                'mar_value' : yearly_totals_2023['mar'],
-                'apr_value' : yearly_totals_2023['apr'],
-                'may_value' : yearly_totals_2023['may'],
-                'jun_value' : yearly_totals_2023['jun'],
-                'jul_value' : yearly_totals_2023['jul'],
-                'aug_value' : yearly_totals_2023['aug'],
-                'sep_value' : yearly_totals_2023['sep'],
-                'oct_value' : yearly_totals_2023['oct'],
-                'nov_value' : yearly_totals_2023['nov'],
-                'dec_value' :yearly_totals_2023['dec'],
-
-               
-    #           'percentage_final_amounts_all_students':  percentage_final_amounts_all_students
-
+                'yearly_totals_2023':yearly_totals_2023,
+                'yearly_totals_center1':yearly_totals_center1,
+                'yearly_totals_center2':yearly_totals_center2,
+                'yearly_totals_center3':yearly_totals_center3,
+                'top_clients':top_clients,
+                'top_product':top_product,
+                'get_total_achat_by_year':get_total_achat_by_year(timezone.now().year),
               
               }
     
     return {'app_view1': context}
 
-
-# def calculate_final_amount_for_all():
-#     # Fetch all instances of your model
-#     all_instances = Etudiant.objects.all()
-#     total = 0.0
-#     for obj in all_instances:
-#         total_amount = obj.payments.aggregate(total_amount=Sum('amount'))['total_amount'] or 0
-#         assisted_cost = 0
-
-#         # Calculate the assisted cost for the current object
-#         for assisted_instance in obj.assisted_set.all():
-#             if assisted_instance.matiere.prix_seance is not None:
-#                 assisted_cost += assisted_instance.matiere.prix_seance / 4
-
-#         # Calculate the final amount by subtracting assisted cost from total amount
-#         final_amount = float(total_amount) - float(Decimal(assisted_cost))
-
-#         # Assign or store the final amount in your model instance or print it
-#         # For example:
-#         # obj.final_amount = final_amount
-#         # obj.save()
-#         print(f"For {obj}: Final Amount = {final_amount}")
-#         total +=final_amount
-
-#     return float(total) 
-
-def get_total_amount_by_year(year):
+def get_total_amount_by_year(year, center=None):
     monthly_totals = {}
     for month in range(1, 13):
         # Calculate start and end dates of each month in the specified year
@@ -174,14 +117,38 @@ def get_total_amount_by_year(year):
         end_date = datetime(year, month, monthrange(year, month)[1])
 
         # Query to calculate total amount for each month
-        total_amount = Sale.objects.filter(
-            sale_date__gte=start_date, sale_date__lte=end_date).aggregate(total=Sum( F('unit_price') * F('quantity_sold')))
+        filter_params = {'sale_date__gte': start_date, 'sale_date__lte': end_date}
+       
+        filter_params['center_id'] = center
+        
+
+
+        total_amount = Sale.objects.filter(**filter_params).aggregate(total=Sum(F('unit_price') * F('quantity_sold')))
 
         # Store total amount for the month as a float
         monthly_totals[start_date.strftime('%b').lower()] = float(total_amount['total'] or 0) if total_amount['total'] is not None else 0
 
     return monthly_totals
- 
+def get_total_achat_by_year(year):
+    monthly_totals = {}
+    for month in range(1, 13):
+        # Calculate start and end dates of each month in the specified year
+        start_date = datetime(year, month, 1)
+        end_date = datetime(year, month, monthrange(year, month)[1])
+
+        # Query to calculate total amount for each month
+        filter_params = {'date_created__gte': start_date, 'date_created__lte': end_date}
+       
+       
+        
+
+
+        total_achat = Commande.objects.filter(**filter_params).aggregate(total=Sum(F('unit_price') * F('quantity')))
+
+        # Store total amount for the month as a float
+        monthly_totals[start_date.strftime('%b').lower()] = float(total_achat['total'] or 0) if total_achat['total'] is not None else 0
+
+    return monthly_totals
 
 
 def abbreviate_value(value):
@@ -196,3 +163,26 @@ def abbreviate_value(value):
         return f"{value / 1000:.1f}k"
     else:
         return str(value)
+def get_top_client_of_each_month(year):
+    top_clients_of_each_month = []
+
+    # Itérez sur chaque mois de l'année
+    for month in range(1, 13):
+        # Obtenez la date de début et de fin du mois
+        first_day_of_month = datetime(year, month, 1)
+        last_day_of_month = first_day_of_month.replace(
+            day=monthrange(year, month)[1])
+
+        # Obtenez le top client du mois en fonction de la quantité totale de produits vendus
+        top_client = Sale.objects.filter(
+            sale_date__gte=first_day_of_month,
+            sale_date__lte=last_day_of_month
+        ).values('client__name', 'client__address', 'client__phone',).annotate(total_quantity=Sum(F('unit_price') * F('quantity_sold'))).order_by('-total_quantity').first()
+
+        # Ajoutez le résultat à la liste
+        top_clients_of_each_month.append({
+            'month': month,
+            'top_client': top_client
+        })
+
+    return top_clients_of_each_month

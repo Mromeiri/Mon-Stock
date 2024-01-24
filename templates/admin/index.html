@@ -107,6 +107,7 @@
         <div class="col-lg-5 mb-lg-0 mb-4">
           <div class="card z-index-2">
             <div class="card-body p-3">
+              <h6 class="ms-2 mt-0 mb-2"> Value of Purchases </h6>
               <div class="bg-gradient-dark border-radius-lg py-3 pe-1 mb-3">
                 <div class="chart">
                   <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
@@ -156,10 +157,97 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-7">
+       
+          
+          
+        
+        <div class="col-lg-7"> <div class="card z-index-2">
+          <ul class="nav nav-tabs" id="myTabs">
+              <li class="nav-item">
+                  <a class="nav-link active" id="graph1-tab" data-bs-toggle="tab" href="#graph1"style="color: #7F7F7F;font-weight:600;font-size: 0.875rem !important;line-height: 1.5;text-transform: capitalize !important;">Magasin Principal</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" id="graph2-tab" data-bs-toggle="tab" href="#graph2"style="color: #7F7F7F;font-weight:600;font-size: 0.875rem !important;line-height: 1.5;text-transform: capitalize !important;">Centre 1</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" id="graph3-tab" data-bs-toggle="tab" href="#graph3"style="color: #7F7F7F;font-weight:600;font-size: 0.875rem !important;line-height: 1.5;text-transform: capitalize !important;">Centre 2</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="graph4-tab" data-bs-toggle="tab" href="#graph4"style="color: #7F7F7F;font-weight:600;font-size: 0.875rem !important;line-height: 1.5;text-transform: capitalize !important;">Centre 3</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+              <div class="tab-pane fade show active" id="graph1">
+                  <!-- Your Graph 1 HTML and script here -->
+                  <div class="card z-index-2">
+                    <div class="card-header pb-0">
+                      <h6>Principal Magasin Sales overview</h6>
+                      
+                    
+                    </div>
+                    <div class="card-body p-3">
+                      <div class="chart">
+                        <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+                      </div>
+                      
+                    </div>
+                  </div>
+              </div>
+              <div class="tab-pane fade" id="graph2">
+                  <!-- Your Graph 2 HTML and script here -->
+                  <div class="card z-index-2">
+                    <div class="card-header pb-0">
+                      <h6>Center 1 Sales overview</h6>
+                      
+                      
+                    </div>
+                    <div class="card-body p-3">
+                      <div class="chart">
+                        <canvas id="chart-line2" class="chart-canvas" height="300"></canvas>
+                      </div>
+                      
+                    </div>
+                  </div>
+              </div>
+              <div class="tab-pane fade" id="graph3">
+                  <!-- Your Graph 3 HTML and script here -->
+                  <div class="card z-index-2">
+                    <div class="card-header pb-0">
+                      <h6>Center 2 Sales overview</h6>
+                      
+                      
+                    </div>
+                    <div class="card-body p-3">
+                      <div class="chart">
+                        <canvas id="chart-line3" class="chart-canvas" height="300"></canvas>
+                      </div>
+                      
+                    </div>
+                  </div>
+              </div>
+              <div class="tab-pane fade" id="graph4">
+                <!-- Your Graph 3 HTML and script here -->
+                <div class="card z-index-2">
+                  <div class="card-header pb-0">
+                    <h6>Center 3 Sales overview</h6>
+                    
+                    
+                  </div>
+                  <div class="card-body p-3">
+                    <div class="chart">
+                      <canvas id="chart-line4" class="chart-canvas" height="300"></canvas>
+                    </div>
+                    
+                  </div>
+                </div>
+            </div>
+          </div>
+    </div>  </div>
+         {% comment %} <div class="col-lg-7">
           <div class="card z-index-2">
             <div class="card-header pb-0">
               <h6>Sales overview</h6>
+              
               <p class="text-sm">
                 <i class="fa fa-arrow-up text-success"></i>
                 <span class="font-weight-bold">4% more</span> in 2021
@@ -169,9 +257,10 @@
               <div class="chart">
                 <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
               </div>
+              
             </div>
           </div>
-        </div>
+        </div>  {% endcomment %}
       </div>
 
 <!-- Your existing HTML code -->
@@ -184,16 +273,13 @@
         <!-- Add the nav-tabs structure here -->
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link active" id="tab1" data-toggle="tab" href="#products1"style="font-size: 1rem;
-            line-height: 1.625;font-weight: 600;">Stock</a>
+            <a class="nav-link active" id="tab1" data-toggle="tab" href="#products1"style="color: #7F7F7F;font-weight:600;font-size: 0.875rem !important;line-height: 1.5;text-transform: capitalize !important;">Stock</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="tab2" data-toggle="tab" href="#products2"style="font-size: 1rem;
-            line-height: 1.625;font-weight: 600;">Best customers</a>
+            <a class="nav-link" id="tab2" data-toggle="tab" href="#products2"style="color: #7F7F7F;font-weight:600;font-size: 0.875rem !important;line-height: 1.5;text-transform: capitalize !important;">Best customers</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="tab3" data-toggle="tab" href="#products3"style="font-size: 1rem;
-            line-height: 1.625;font-weight: 600;">Best-seller</a>
+            <a class="nav-link" id="tab3" data-toggle="tab" href="#products3"style="color: #7F7F7F;font-weight:600;font-size: 0.875rem !important;line-height: 1.5;text-transform: capitalize !important;">Best-seller</a>
           </li>
           {% comment %} <li class="nav-item">
             <a class="nav-link" id="tab4" data-toggle="tab" href="#products4"style="font-size: 1rem;
@@ -274,12 +360,139 @@
             </div>
           </div>
           <div class="tab-pane fade" id="products2">
-            <!-- Table content for Tab 2 -->
-            <!-- ... Your existing table structure ... -->
+            <div class="table-responsive">
+              <div style="display: flex; align-items: center;">
+                <h6 id="bestClientsHeading" style="margin-right: auto; margin-left: 15px;">Best-Customers {{ current_year }}</h6>
+                <div style="display:flex; justify-content:right">
+                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false" style="right: 0; padding-right: 30px;">
+                        <i class="fa fa-ellipsis-v text-secondary"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" style="right: 0; padding-right: 15px;" aria-labelledby="dropdownTable">
+                        <li><a class="dropdown-item border-radius-md" href="javascript:;" onclick="filterClients('{{ current_year }}')">{{ current_year }}</a></li>
+                        {% for month in app_view1.months %}
+                            <li><a class="dropdown-item border-radius-md" href="javascript:;" onclick="filterClients('{{ month }}')">{{ month }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+              
+                
+              <table class="table align-items-center mb-0"style="padding-right:20px">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Client Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Adress</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount spent</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for client in app_view1.top_clients %}
+                  <tr data-month="{{ client.month }}">
+
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{client.client__name }}</h6>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </td>
+                    
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{client.client__address }}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{client.client__phone  }}</h6>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{client.total_amount  }} DA</h6>
+                      </div>
+                    </td>
+                    
+                  </tr>
+                  {% endfor %}
+                  
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="tab-pane fade" id="products3">
-            <!-- Table content for Tab 3 -->
-            <!-- ... Your existing table structure ... -->
+            <div class="table-responsive">
+              <div style="display: flex; align-items: center;">
+                <h6 id="bestClientsHeading" style="margin-right: auto; margin-left: 15px;">Best-seller {{ current_year }}</h6>
+                <div style="display:flex; justify-content:right">
+                    <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false" style="right: 0; padding-right: 30px;">
+                        <i class="fa fa-ellipsis-v text-secondary"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" style="right: 0; padding-right: 15px;" aria-labelledby="dropdownTable">
+                        <li><a class="dropdown-item border-radius-md" href="javascript:;" onclick="filterClients('{{ current_year }}')">{{ current_year }}</a></li>
+                        {% for month in app_view1.months %}
+                            <li><a class="dropdown-item border-radius-md" href="javascript:;" onclick="filterClients('{{ month }}')">{{ month }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+              
+                
+              <table class="table align-items-center mb-0"style="padding-right:20px">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Designation</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Qte Sold</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount spent</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for product in app_view1.top_product %}
+                  <tr >
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div>
+                          {% comment %} <img src={{product.designation}} class="avatar avatar-sm me-3" alt="xd"> {% endcomment %}
+
+                          <img src="/{{  product.product__image }}" class="avatar avatar-sm me-3" alt="xd">
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{product.product__designation }}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    
+                    
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{product.quantity_sold  }}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{product.total}} DA</h6>
+                      </div>
+                    </td>
+                    
+                    
+                  </tr>
+                  {% endfor %}
+                  
+                </tbody>
+              </table>
+            </div>
           </div>
           <div class="tab-pane fade" id="products4">
             <!-- Table content for Tab 4 -->
@@ -485,8 +698,42 @@
 <!-- Specific JS goes HERE --> 
 {% block scripts %}
 <script>
+  
+    var topClientsData = [
+    {% for entry in app_view1.top_client_instances %}
+            {
+                'month': {{ entry.month }},
+                'top_client': {
+                    'client__name': '{{ entry.top_client.client__name|escapejs }}',
+                    'client__address': '{{ entry.top_client.client__address|escapejs }}',
+                    'client__phone': '{{ entry.top_client.client__phone|escapejs }}',
+                    'total_quantity': {{ entry.top_client.total_quantity|default:0|floatformat }}
+                }
+            },
+            {% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    console.log(topClientsData)
+  function filterClients(month) {
+    // Get all client rows
+    var clientRows = document.querySelectorAll('.client-row');
+
+    // Hide all client rows
+    clientRows.forEach(function(row) {
+        row.style.display = 'none';
+    });
+
+    // Show only the client rows for the selected month
+    var selectedMonthClients = document.querySelectorAll('.client-row[data-month="' + month + '"]');
+    selectedMonthClients.forEach(function(row) {
+        row.style.display = '';
+    });
+
+    // Update the heading text to include the selected month
+    document.getElementById('bestClientsHeading').textContent = 'Best Clients ' + month;
+}
   // Add this script to the end of your body section
-  $(document).ready(function(){
+  {% comment %} $(document).ready(function(){
     // Show the corresponding tab content when a tab is clicked
     $('#tab1').click(function(){
       $('.tab-pane').removeClass('show active');
@@ -504,7 +751,7 @@
       $('.tab-pane').removeClass('show active');
       $('#products4').addClass('show active');
     });
-  });
+  }); {% endcomment %}
 </script>
 
 
@@ -512,11 +759,15 @@
   <script>
     
     var ctx = document.getElementById("chart-bars").getContext("2d");
-
+    var monthsData = [
+    {% for month, value in app_view1.get_total_achat_by_year.items  %}
+        {{ value }},
+    {% endfor %}
+];
     new Chart(ctx, {
       type: "bar",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: ["Jan","Feb","Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [{
           label: "Sales",
           tension: 0.4,
@@ -524,7 +775,7 @@
           borderRadius: 4,
           borderSkipped: false,
           backgroundColor: "#fff",
-          data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
+          data: monthsData,
           maxBarThickness: 6
         }, ],
       },
@@ -591,7 +842,11 @@
     gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
     gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
-
+    var monthsData = [0,
+    {% for month, value in app_view1.yearly_totals_2023.items  %}
+        {{ value }},
+    {% endfor %}
+];
     new Chart(ctx2, {
       type: "line",
       data: {
@@ -605,11 +860,11 @@
             borderWidth: 3,
             backgroundColor: gradientStroke1,
             fill: true,
-            data: [0,{{app_view1.jan_value}}, {{app_view1.feb_value}}, {{app_view1.mar_value}},{{app_view1.apr_value}}, {{app_view1.may_value}}, {{app_view1.jun_value}}, {{app_view1.jul_value}}, {{app_view1.aug_value}}, {{app_view1.sep_value}}, {{app_view1.oct_value}}, {{app_view1.nov_value}}, {{app_view1.dec_value}}],
+            data: monthsData,
             maxBarThickness: 6
 
           },
-          {
+          {% comment %} {
             label: "Profit",
             tension: 0.4,
             borderWidth: 0,
@@ -620,7 +875,7 @@
             fill: true,
             data: [0,50, 40, 300,30, 90, 40, 140, 290, 290, 340, 230, 400],
             maxBarThickness: 6
-          },
+          }, {% endcomment %}
         ],
       },
       options: {
@@ -637,6 +892,326 @@
         },
         scales: {
           y: {
+            beginAtZero: true,
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              padding: 10,
+              color: '#b2b9bf',
+              font: {
+                size: 11,
+                family: "Open Sans",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#b2b9bf',
+              padding: 20,
+              font: {
+                size: 11,
+                family: "Open Sans",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+    var ctx3 = document.getElementById("chart-line2").getContext("2d");
+
+    var gradientStroke1 = ctx3.createLinearGradient(0, 230, 0, 50);
+
+    gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
+
+    var gradientStroke2 = ctx3.createLinearGradient(0, 230, 0, 50);
+
+    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+    var monthsData = [0,
+    {% for month, value in app_view1.yearly_totals_center1.items  %}
+        {{ value }},
+    {% endfor %}
+];
+    new Chart(ctx3, {
+      type: "line",
+      data: {
+        labels: ["","Jan","Feb","Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+            label: "Sales",
+            tension: 0.4,
+            borderWidth: 0,
+            pointRadius: 0,
+            borderColor: "#cb0c9f",
+            borderWidth: 3,
+            backgroundColor: gradientStroke1,
+            fill: true,
+            data:monthsData,
+            maxBarThickness: 6
+
+          },
+          {% comment %} {
+            label: "Profit",
+            tension: 0.4,
+            borderWidth: 0,
+            pointRadius: 0,
+            borderColor: "#575f9a",
+            borderWidth: 3,
+            backgroundColor: gradientStroke2,
+            fill: true,
+            data: [0,50, 40, 300,30, 90, 40, 140, 290, 290, 340, 230, 400],
+            maxBarThickness: 6
+          }, {% endcomment %}
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              padding: 10,
+              color: '#b2b9bf',
+              font: {
+                size: 11,
+                family: "Open Sans",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#b2b9bf',
+              padding: 20,
+              font: {
+                size: 11,
+                family: "Open Sans",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+    var ctx4 = document.getElementById("chart-line3").getContext("2d");
+
+    var gradientStroke1 = ctx4.createLinearGradient(0, 230, 0, 50);
+
+    gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
+
+    var gradientStroke2 = ctx4.createLinearGradient(0, 230, 0, 50);
+
+    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+    var monthsData = [0,
+    {% for month, value in app_view1.yearly_totals_center2.items  %}
+        {{ value }},
+    {% endfor %}
+];
+    new Chart(ctx4, {
+      type: "line",
+      data: {
+        labels: ["","Jan","Feb","Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+            label: "Sales",
+            tension: 0.4,
+            borderWidth: 0,
+            pointRadius: 0,
+            borderColor: "#cb0c9f",
+            borderWidth: 3,
+            backgroundColor: gradientStroke1,
+            fill: true,
+            data: monthsData,
+            maxBarThickness: 6
+
+          },
+          {% comment %} {
+            label: "Profit",
+            tension: 0.4,
+            borderWidth: 0,
+            pointRadius: 0,
+            borderColor: "#575f9a",
+            borderWidth: 3,
+            backgroundColor: gradientStroke2,
+            fill: true,
+            data: [0,50, 40, 300,30, 90, 40, 140, 290, 290, 340, 230, 400],
+            maxBarThickness: 6
+          }, {% endcomment %}
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              padding: 10,
+              color: '#b2b9bf',
+              font: {
+                size: 11,
+                family: "Open Sans",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#b2b9bf',
+              padding: 20,
+              font: {
+                size: 11,
+                family: "Open Sans",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+    var ctx5 = document.getElementById("chart-line4").getContext("2d");
+
+    var gradientStroke1 = ctx5.createLinearGradient(0, 230, 0, 50);
+
+    gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
+
+    var gradientStroke2 = ctx5.createLinearGradient(0, 230, 0, 50);
+
+    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+    var monthsData = [0,
+    {% for month, value in app_view1.yearly_totals_center3.items  %}
+        {{ value }},
+    {% endfor %}
+];
+    new Chart(ctx5, {
+      type: "line",
+      data: {
+        labels: ["","Jan","Feb","Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+            label: "Sales",
+            tension: 0.4,
+            borderWidth: 0,
+            pointRadius: 0,
+            borderColor: "#cb0c9f",
+            borderWidth: 3,
+            backgroundColor: gradientStroke1,
+            fill: true,
+            data:monthsData,
+            maxBarThickness: 6
+
+          },
+          {% comment %} {
+            label: "Profit",
+            tension: 0.4,
+            borderWidth: 0,
+            pointRadius: 0,
+            borderColor: "#575f9a",
+            borderWidth: 3,
+            backgroundColor: gradientStroke2,
+            fill: true,
+            data: [0,50, 40, 300,30, 90, 40, 140, 290, 290, 340, 230, 400],
+            maxBarThickness: 6
+          }, {% endcomment %}
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
             grid: {
               drawBorder: false,
               display: true,
