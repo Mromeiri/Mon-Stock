@@ -15,7 +15,19 @@ class EmployeeAdmin(admin.ModelAdmin):
 @admin.register(Salaire)
 class SalaireAdmin(admin.ModelAdmin):
     actions = ['imprimer_pdf']
-    list_display = ('employee', 'date', 'salaire')
+    list_display = ('employee', 'display_date', 'salaire')
+    # def has_add_permission(self, request):
+    #     return False
+
+    # # def has_delete_permission(self, request, obj=None):
+    # #     return False
+    # def has_change_permission(self, request, obj=None):
+    #     return False
+    def display_date(self, obj):
+        return obj.date.strftime('%Y-%m')
+
+    display_date.short_description = 'Date'
+    display_date.admin_order_field = 'date'
     
     
 class AttendanceAdmin(admin.ModelAdmin):

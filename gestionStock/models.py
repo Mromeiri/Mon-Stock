@@ -212,6 +212,7 @@ class Transfer(models.Model):
     def clean(self):
         # Get the total quantity arrived for this Commande
         sum_quantity = Transfer.objects.filter(Arrival=self.Arrival).aggregate(total_quantity=Sum('quantity'))
+        
 
         # Calculate the new total quantity arrived if this instance is being changed
         total_quantity_exiqt = sum_quantity['total_quantity'] or 0
