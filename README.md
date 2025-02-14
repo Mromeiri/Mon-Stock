@@ -38,7 +38,7 @@
         Comprehensive overview of inventory, sales, and analytics
       </td>
       <td align="center">
-        <img src="screenshots/sales" alt="Inventory Management" width="300"/>
+        <img src="screenshots/sales.png" alt="Inventory Management" width="300"/>
         <br />
         <b>Inventory Management</b>
         <br />
